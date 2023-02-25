@@ -1,0 +1,22 @@
+.App {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.first_container {
+  background: #61dafb;
+  display: flex;
+  width: fit-content;
+  overflow: auto;
+}
+
+.card {
+  height: 200px;
+  width: 200px;
+}
+.card > img {
+  height: 100px;
+  width: 100px;
+}
