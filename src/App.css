@@ -1,22 +1,72 @@
+header {
+  min-height: 100px;
+  background: rgb(76, 76, 200);
+  text-align: center;
+  color: azure;
+  padding: 1rem;
+}
+button {
+  height: fit-content;
+  width: 250px;
+  padding: 1rem;
+  color: rgb(76, 76, 200);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
 .App {
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: space-around;
+  background: rgb(254, 227, 227);
 }
 
 .first_container {
-  background: #61dafb;
+  background: rgb(253, 253, 253);
   display: flex;
-  width: fit-content;
+  width: 100%;
   overflow: auto;
+  width: 50%;
+  align-items: center;
+  justify-content: center;
+  border: 20px solid black;
+}
+.infinite-scroll-component__outerdiv {
+  width: 100%;
+}
+.infinite-scroll-component {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .card {
-  height: 200px;
-  width: 200px;
+  height: fit-content;
+  width: calc(99% / 3 - 60px);
+  background: rgb(240, 229, 229);
+  margin: 1rem;
+  padding: 0.4rem;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
+
 .card > img {
   height: 100px;
   width: 100px;
+}
+.card_title {
+  font-weight: 600;
+  color: rgb(1, 0, 0);
+}
+.card_id {
+  height: fit-content;
+  background: rgb(76, 76, 200);
+  color: white;
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
 }

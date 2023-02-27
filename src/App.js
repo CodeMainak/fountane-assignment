@@ -1,81 +1,71 @@
 import axios from "axios";
 import { useState } from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 import "./App.css";
+import ScrollableList from "./components/ScrollableList";
 
 function App() {
   const [posts, setPosts] = useState([]);
+  const [posts2, setPosts2] = useState([]);
   const [start, setStart] = useState(0);
-  const [limit] = useState(5);
-  const [hasMore, setHasMore] = useState(true);
+  const [start2, setStart2] = useState(0);
+  const [limit] = useState(6);
 
-  const handleDataFecth = () => {
-    let newStart = start + limit;
-    setStart((prev) => prev + limit);
-    fetehData(newStart);
+  const URL = "https://jsonplaceholder.typicode.com/photos";
+
+  const handleDataFetch = (curStart, curSetStart, curSetPosts, curPosts) => {
+    fetehData(curStart, curSetPosts, curPosts);
+    curSetStart((prev) => prev + limit);
   };
 
-  // time slicing
-
-  const fetchMoreData = () => {
-    // a fake async api call like which sends
-    // 20 more records in 1.5 secs
-    handleDataFecth();
+  const fetehData = async (newStart, setPostsHandler, curPosts) => {
+    const res = await axios.get(`${URL}?_limit=${limit}&_start=${newStart}`);
+    const newPosts = curPosts.concat(res.data);
+    setPostsHandler(newPosts);
   };
-
-  const fetehData = async (newStart) => {
-    const res = await axios.get(
-      `https://jsonplaceholder.typicode.com/photos?_limit=${limit}&_start=${newStart}`
-    );
-    if (newStart === start) {
-    }
-    const newPosts = posts.concat(res.data);
-    setPosts(newPosts);
-  };
-
+  const showData = (posts, url) =>
+    posts.map((post) => (
+      <div className="card" key={post.id}>
+        <div className="card_id">{post.id}</div>
+        <div>
+          <span className="card_title">{post.title}</span>
+        </div>
+        <div>{post.body}</div>
+        <img src={url} alt="img1" />
+      </div>
+    ));
   return (
     <div>
-      <button onClick={(e) => handleDataFecth()}>Get Next</button>
+      <header>
+        <h1>Fountane Assignment</h1>
+        <button
+          onClick={(e) => {
+            handleDataFetch(start, setStart, setPosts, posts);
+            handleDataFetch(start2, setStart2, setPosts2, posts2);
+          }}
+        >
+          Get List Data
+        </button>
+      </header>
       <div className="App">
-        <div className="first_container">
-          <InfiniteScroll
-            dataLength={posts.length}
-            next={fetchMoreData}
-            hasMore={hasMore}
-            loader={<h4>Loading...</h4>}
-            height={400}
-          >
-            {posts.length}
-            {posts.map((post) => (
-              <div className="card">
-                <div key={post.id}>
-                  <span>{post.title}</span>
-                </div>
-                <img src={post.url} alt="img1" />
-              </div>
-            ))}
-          </InfiniteScroll>
-        </div>
-        <div className="first_container">
-          <InfiniteScroll
-            dataLength={posts.length}
-            next={fetchMoreData}
-            hasMore={hasMore}
-            loader={<h4>Loading...</h4>}
-            height={400}
-          >
-            {posts.length}
-            {posts.map((post) => (
-              <div className="card">
-                <div key={post.id}>
-                  <span>{post.title}</span>
-                </div>
-                <img src={post.url} alt="img1" />
-              </div>
-            ))}
-          </InfiniteScroll>
-        </div>
+        <ScrollableList
+          posts={posts}
+          start={start}
+          handleDataFetch={handleDataFetch}
+          setStart={setStart}
+          setPosts={setPosts}
+          showData={showData}
+          url="https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_256,w_256,f_auto,q_auto:eco,dpr_1/gjs45tij6qkr1klstmwf"
+        />
+        <ScrollableList
+          posts={posts2}
+          start={start2}
+          handleDataFetch={handleDataFetch}
+          setStart={setStart2}
+          setPosts={setPosts2}
+          showData={showData}
+          url="https://media.glassdoor.com/sql/2073019/fountane-squarelogo-1569868822139.png"
+        />
       </div>
     </div>
   );
